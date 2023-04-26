@@ -1,0 +1,27 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Launch Chrome with webpack",
+            "url": "http://localhost:8080",
+            "runtimeExecutable": "/home/tev/.nix-profile/bin/brave",
+            // "runtimeExecutable": "/nix/store/6rr7gn5fdwgipbj1rka472jgh905g42f-google-chrome-112.0.5615.49/bin/google-chrome-stable",
+            "preLaunchTask": "Start npm dev environment",
+            "webRoot": "${workspaceFolder}",
+            // "sourceMapPathOverrides": {
+            //     "webpack://dalat-net-fe/*": "${workspaceFolder}/*"
+            // },
+            "trace": true
+        },
+        {
+            "type": "firefox",
+            "request": "launch",
+            "name": "Launch Firefox with webpack",
+            "url": "http://localhost:8080",
+            "preLaunchTask": "Start npm dev environment",
+            "webRoot": "${workspaceFolder}"
+        }
+    ]
+}

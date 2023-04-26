@@ -1,0 +1,21 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Start nix dev environment",
+            "command": "nix run",
+            "isBackground": true,
+            "args": [],
+            "type": "shell",
+            "problemMatcher": []
+        },
+        {
+            "label": "Start npm dev environment",
+            "command": "npm run dev",
+            "isBackground": true,
+            "args": [],
+            "type": "shell",
+            "problemMatcher": []
+        },
+    ]
+}

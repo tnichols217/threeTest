@@ -17,23 +17,17 @@
           systems = flake-utils.lib.defaultSystems;
           config.projectRoot = ./.;
           source = gitignore.lib.gitignoreSource ./.;
-          autoProjects = true;
+          # autoProjects = true;
+          projects = ./projects.toml;
           settings = [
             {
               subsystemInfo.nodejs = 18;
             }
           ];
-          packageOverrides = {
-            canvas = {
-              add_libuuid = {
-                buildInputs = old: old ++ [nixpkgs.legacyPackages."x86_64-linux".libuuid];
-              };
-            };
-          };
         };
       customOut = flake-utils.lib.eachDefaultSystem (system:
         let
-          name = "chess";
+          name = "threetest";
           pkgs = nixpkgs.legacyPackages.${system};
           app = dream2nixOut.packages."${system}"."${name}";
         in with pkgs; {
@@ -48,6 +42,10 @@
               type = "app";
               program = ./nix/scripts/dev.sh;
             };
+            devProd = {
+              type = "app";
+              program = ./nix/scripts/devProd.sh;
+            };
             start = {
               type = "app";
               program = ./nix/scripts/start.sh;
@@ -60,6 +58,6 @@
           };
         });
     in
-    dream2nixOut;
-    # nixpkgs.lib.recursiveUpdate dream2nixOut customOut;
+    # dream2nixOut;
+    nixpkgs.lib.recursiveUpdate dream2nixOut customOut;
 }
