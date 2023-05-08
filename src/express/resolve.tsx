@@ -7,7 +7,14 @@ import express, { RequestHandler, Request, Response } from "express";
 // Http for using the http protocol (because theres no need for https for this project)
 // Built in module for the node.js environment
 import http from "http";
+import https from "https";
+import fs from "fs";
 import { resolve as main } from "./routes/main"
+
+//@ts-ignore
+import key from "./key.pem"
+//@ts-ignore
+import cert from "./cert.pem"
 
 //@ts-ignore
 import monke from "./routes/monke.glb"
@@ -115,5 +122,9 @@ const resolve = async (req: Request, res: Response) => {
 
 export const start = () => {
     app.get("*", resolve)
-    http.createServer(app).listen(8080)
+    https.createServer({
+        key: fs.readFileSync(__dirname + "/" + key),
+        cert: fs.readFileSync(__dirname + "/" + cert)
+    }, app).listen(8080)
+    // http.createServer(app).listen(8080)
 }

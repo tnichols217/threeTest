@@ -4,7 +4,7 @@ import { resolveTreeFunction } from "../resolve"
 import React from "basicjsx"
 import { CustomElements } from "basicjsx"
 //@ts-ignore
-import main from "./main.client"
+import main from "./XR.client"
 //@ts-ignore
 import css from "./main.css"
 

@@ -21,6 +21,7 @@ esbuild.build({
 		'.client.js': 'base64',
 		'.glb': 'file',
 		'.exr': 'file',
+		'.pem': 'file',
 	},
 	external: ['canvas', "./xhr-sync-worker.js"],
 	treeShaking: true,
