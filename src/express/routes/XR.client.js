@@ -17,216 +17,6 @@ import * as POSTPROCESSING from "postprocessing"
 // made by 0beqz at https://github.com/0beqz/realism-effects
 import { MotionBlurEffect, VelocityDepthNormalPass } from "realism-effects"
 
-// class ARButton {
-//     inAR = false;
-//     XRsession;
-//     sessionInit;
-//     button;
-//     currentSession;
-// 	renderer;
-
-//     constructor(renderer, domEl) {
-// 		console.log("creating button")
-//         this.button = document.createElement('button');
-// 		this.renderer = renderer;
-//         domEl.appendChild(this.button)
-
-// 		this.sessionInit = {};
-
-//         // this.button.style.display = '';
-
-//         this.button.style.cursor = 'pointer';
-//         this.button.style.left = 'calc(50% - 50px)';
-//         this.button.style.width = '100px';
-
-//         this.button.textContent = 'START AR';
-
-//         if (navigator.xr != null) {
-//             this.XRsession = navigator.xr;
-
-//             this.button.id = 'ARButton';
-//             // this.button.style.display = 'none';
-
-//             this.stylizeElement(this.button);
-
-//             navigator.xr.isSessionSupported('immersive-ar').then((supported) => {
-
-//                 supported ? this.showStartAR() : this.showARNotSupported();
-
-//             }).catch(console.error);
-
-//         } else {
-
-//             const message = document.createElement('a');
-
-//             if (window.isSecureContext === false) {
-
-//                 message.href = document.location.href.replace(/^http:/, 'https:');
-//                 message.innerHTML = 'WEBXR NEEDS HTTPS'; // TODO Improve message
-
-//             } else {
-
-//                 message.href = 'https://immersiveweb.dev/';
-//                 message.innerHTML = 'WEBXR NOT AVAILABLE';
-
-//             }
-
-//             message.style.left = 'calc(50% - 90px)';
-//             message.style.width = '180px';
-//             message.style.textDecoration = 'none';
-
-//             this.stylizeElement(message);
-//         }
-
-//         this.button.onmouseenter = () => {
-
-//             this.button.style.opacity = '1.0';
-
-//         };
-
-//         this.button.onmouseleave = () => {
-
-//             this.button.style.opacity = '0.5';
-
-//         };
-
-//         this.button.onclick = () => {
-
-//             if (this.currentSession == null) {
-
-//                 this.XRsession.requestSession('immersive-ar', this.sessionInit).then(this.onSessionStarted);
-//                 this.inAR = true;
-
-//             } else {
-
-//                 this.currentSession.end();
-//                 this.inAR = false;
-//             }
-
-//         };
-//     }
-
-// 	async onSessionStarted(session) {
-
-// 		session.addEventListener('end', this.onSessionEnded);
-
-// 		this.renderer.xr.setReferenceSpaceType('local');
-
-// 		await this.renderer.xr.setSession(session);
-
-// 		this.button.textContent = 'STOP AR';
-// 		this.sessionInit.domOverlay.root.style.display = '';
-
-// 		this.currentSession = session;
-// 		this.inAR = true;
-
-// 	}
-
-// 	onSessionEnded( /*event*/) {
-
-// 		this.currentSession.removeEventListener('end', this.onSessionEnded);
-
-// 		this.button.textContent = 'START AR';
-// 		this.sessionInit.domOverlay.root.style.display = 'none';
-
-// 		this.currentSession = null;
-// 		this.inAR = false;
-
-// 	}
-
-//     showStartAR( /*device*/) {
-
-//         if (this.sessionInit?.domOverlay === undefined) {
-
-//             const overlay = document.createElement('div');
-//             overlay.style.display = 'none';
-//             document.body.appendChild(overlay);
-
-//             const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-//             svg.setAttribute('width', "38");
-//             svg.setAttribute('height', "38");
-//             svg.style.position = 'absolute';
-//             svg.style.right = '20px';
-//             svg.style.top = '20px';
-//             svg.addEventListener('click', () => {
-
-//                 this.currentSession.end();
-//                 this.inAR = false;
-
-//             });
-//             overlay.appendChild(svg);
-
-//             const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-//             path.setAttribute('d', 'M 12,12 L 28,28 M 28,12 12,28');
-//             path.setAttribute('stroke', '#fff');
-//             path.setAttribute('stroke-width', "2");
-//             svg.appendChild(path);
-
-//             if (this.sessionInit?.optionalFeatures === undefined) {
-
-//                 this.sessionInit.optionalFeatures = [];
-
-//             }
-
-//             this.sessionInit.optionalFeatures.push('dom-overlay');
-//             this.sessionInit.domOverlay = { root: overlay };
-
-//         }
-//     }
-
-//     disableButton() {
-
-//         this.button.style.display = '';
-
-//         this.button.style.cursor = 'auto';
-//         this.button.style.left = 'calc(50% - 75px)';
-//         this.button.style.width = '150px';
-
-//         this.button.onmouseenter = null;
-//         this.button.onmouseleave = null;
-
-//         this.button.onclick = null;
-
-//     }
-
-//     showARNotSupported() {
-
-//         this.disableButton();
-
-//         this.button.textContent = 'AR NOT SUPPORTED';
-
-//     }
-
-//     showARNotAllowed(exception) {
-
-//         this.disableButton();
-
-//         console.warn('Exception when trying to call xr.isSessionSupported', exception);
-
-//         this.button.textContent = 'AR NOT ALLOWED';
-
-//     }
-
-//     stylizeElement(element) {
-
-//         element.style.position = 'absolute';
-//         element.style.bottom = '20px';
-//         element.style.padding = '12px 6px';
-//         element.style.border = '1px solid #fff';
-//         element.style.borderRadius = '4px';
-//         element.style.background = 'rgba(0,0,0,0.1)';
-//         element.style.color = '#fff';
-//         element.style.font = 'normal 13px sans-serif';
-//         element.style.textAlign = 'center';
-//         element.style.opacity = '0.5';
-//         element.style.outline = 'none';
-//         element.style.zIndex = '999';
-
-//     }
-
-// }
-
-
 /* INIT */
 const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 10);
 camera.position.z = 1;
@@ -248,7 +38,7 @@ let gltfFile
 
 gltf.then((gltf) => {
 	gltfFile = gltf.scene;
-	scene.add(gltfFile);
+	scene.add(gltfFile).scale.set(0.1, 0.1, 0.1);
 });
 
 /* RENDERER */
@@ -281,8 +71,10 @@ renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.outputEncoding = THREE.sRGBEncoding;
 renderer.shadowMap.enabled = true
 
-if (!XR) {
-	const composer = new POSTPROCESSING.EffectComposer(renderer)
+let composer;
+
+if (!renderer.xr.isPresenting) {
+	composer = new POSTPROCESSING.EffectComposer(renderer)
 
 	// EFFECTS
 	const renderPass = new POSTPROCESSING.RenderPass(scene, camera)
@@ -304,8 +96,7 @@ if (!XR) {
 ext.then((texture) => {
 	texture.mapping = THREE.EquirectangularReflectionMapping;
 	scene.environment = texture;
-	if (XR) {
-		// scene.backgroundIntensity = 0;
+	if (renderer.xr.isPresenting) {
 		scene.background = null;
 	} else {
 		scene.background = texture;
@@ -332,7 +123,7 @@ function resizeRendererToDisplaySize(renderer, camera) {
 	const needResize = canvas.width !== width || canvas.height !== height;
 	if (needResize) {
 		renderer.setSize(width, height);
-		if (!XR) {
+		if (!renderer.xr.isPresenting) {
 			composer.setSize(width, height);
 		}
 		const canvas = renderer.domElement;
@@ -343,12 +134,14 @@ function resizeRendererToDisplaySize(renderer, camera) {
 }
 
 function animation(time) {
-	if (!XR) {
+	if (!renderer.xr.isPresenting) {
 		resizeRendererToDisplaySize(renderer, camera)
 	}
 
-	if (XR) {
+	if (renderer.xr.isPresenting) {
 		renderer.setClearColor(0x000000, 0)
+		scene.background = null;
+		console.log("is xr")
 		renderer.render(scene, camera);
 	} else {
 		composer.render();
